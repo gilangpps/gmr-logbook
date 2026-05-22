@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> GMR Boys | Logbook </title>
+    <title>GMR Boys | Logbook</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -41,21 +41,7 @@
             </div>
         </div>
 
-        <!-- Success Toast Overlay -->
-        <div id="successOverlay" class="hidden absolute inset-0 bg-[#0A0A0A]/95 z-50 flex flex-col items-center justify-center p-6 text-center">
-            <div class="w-12 h-12 border border-white rounded-full flex items-center justify-center mb-4">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-            </div>
-            <h3 class="text-lg font-bold tracking-wide uppercase mb-2">Data Transmitted</h3>
-            <p class="text-xs text-gray-400 max-w-xs mb-8">Logbook entry has been successfully logged to the system.</p>
-            <button type="button" id="btnResetForm" class="px-6 py-3 border border-white text-xs uppercase font-bold tracking-widest hover:bg-white hover:text-black transition-colors duration-200">
-                Submit Another Entry
-            </button>
-        </div>
-
-        <form action="https://script.google.com/macros/s/AKfycbxXp6sSMv1TFeLjGsDKR5fjWM6yCoIevt1L10eHrLpu5Crxc5bv7gRygK7L_OMK0U-Oiw/exec" method="POST" class="space-y-6">
+        <form id="logbookForm" class="space-y-6">
             <!-- 1. Member (4x2 Grid Button) -->
             <div>
                 <label class="block mb-2 text-xs font-bold tracking-wider text-gray-400 uppercase">Member</label>
@@ -196,12 +182,9 @@
     </div>
 
     <script>
-        // GANTI DENGAN URL WEB APP APPS SCRIPT ANDA
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXp6sSMv1TFeLjGsDKR5fjWM6yCoIevt1L10eHrLpu5Crxc5bv7gRygK7L_OMK0U-Oiw/exec";
 
         const form = document.getElementById('logbookForm');
-        const successOverlay = document.getElementById('successOverlay');
-        const btnResetForm = document.getElementById('btnResetForm');
         const btnSubmit = document.getElementById('btnSubmit');
         const syncStatus = document.getElementById('syncStatus');
 
@@ -214,7 +197,7 @@
             btnSubmit.disabled = true;
             btnSubmit.innerText = "TRANSMITTING...";
             syncStatus.innerText = "SYNCING...";
-            syncStatus.classList.replace('text-gray-400', 'text-yellow-400');
+            syncStatus.className = "text-[10px] text-yellow-400 bg-[#1A1A1A] px-2 py-1 border border-[#262626]";
 
             const formData = new FormData(form);
             
@@ -224,7 +207,6 @@
                 types.push(cb.value);
             });
             
-            // Construct payload or search parameters
             const searchParams = new URLSearchParams();
             for (const pair of formData.entries()) {
                 if (pair[0] !== 'type') {
@@ -233,56 +215,41 @@
             }
             searchParams.append('type', types.join(', '));
 
-            // Performed via fetch for multi-submission without page reload
-            if (APPS_SCRIPT_URL === "https://script.google.com/macros/s/AKfycbxXp6sSMv1TFeLjGsDKR5fjWM6yCoIevt1L10eHrLpu5Crxc5bv7gRygK7L_OMK0U-Oiw/exec") {
-                // Placeholder behavior if URL isn't configured yet
+            // Kirim data ke Google Apps Script via AJAX Fetch
+            fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                body: searchParams
+            })
+            .then(() => {
+                // Skenario Transmit Sukses -> Otomatis bersihkan & refresh form utama
+                syncStatus.innerText = "SUCCESS";
+                syncStatus.className = "text-[10px] text-green-400 bg-[#1A1A1A] px-2 py-1 border border-[#262626]";
+                
                 setTimeout(() => {
-                    showSuccess();
-                }, 1000);
-            } else {
-                fetch(APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // standard workaround for Apps Script CORS
-                    body: searchParams
-                })
-                .then(() => {
-                    showSuccess();
-                })
-                .catch(err => {
-                    console.error('Error:', err);
-                    alert('Transmission failed. Check console.');
-                    resetSubmitButton();
-                });
-            }
+                    resetFormState();
+                }, 800); // Jeda visual singkat 0.8 detik biar user tahu data terkirim
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                alert('Transmission failed. Check console.');
+                restoreSubmitButton();
+            });
         });
 
-        function showSuccess() {
-            syncStatus.innerText = "ONLINE";
-            syncStatus.classList.replace('text-yellow-400', 'text-green-400');
-            successOverlay.classList.remove('hidden');
+        function resetFormState() {
+            form.reset();
+            // Setel ulang tanggal ke hari ini setelah form dikosongkan
+            document.querySelector('input[type="date"]').valueAsDate = new Date();
+            restoreSubmitButton();
         }
 
-        function resetSubmitButton() {
+        function restoreSubmitButton() {
             btnSubmit.disabled = false;
             btnSubmit.innerText = "TRANSMIT DATA";
             syncStatus.innerText = "READY";
             syncStatus.className = "text-[10px] text-gray-400 bg-[#1A1A1A] px-2 py-1 border border-[#262626]";
         }
-
-        // Multi-submission logic: reset the form without reloading the window
-        btnResetForm.addEventListener('click', function() {
-            // Reset textareas and checkboxes/radios
-            form.reset();
-            
-            // Keep the date set to today for convenience
-            document.querySelector('input[type="date"]').valueAsDate = new Date();
-            
-            // Hide the success overlay
-            successOverlay.classList.add('hidden');
-            
-            // Restore submit button state
-            resetSubmitButton();
-        });
     </script>
 </body>
 </html>
