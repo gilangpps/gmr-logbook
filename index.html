@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> GMR Boys | Logbook </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #0A0A0A;
+            color: #FFFFFF;
+        }
+        /* Custom scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333333;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555555;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-lg bg-[#121212] p-6 border border-[#262626] relative">
+        
+        <!-- Header -->
+        <div class="mb-8 border-b border-[#262626] pb-4 flex justify-between items-end">
+            <div>
+                <h1 class="text-xl font-bold tracking-tight uppercase">GMR Logbook</h1>
+                <p class="text-[10px] text-gray-500 tracking-widest mt-0.5">Logbook system for GMR boys</p>
+            </div>
+            <div id="syncStatus" class="text-[10px] text-gray-400 bg-[#1A1A1A] px-2 py-1 border border-[#262626]">
+                READY
+            </div>
+        </div>
+
+        <!-- Success Toast Overlay -->
+        <div id="successOverlay" class="hidden absolute inset-0 bg-[#0A0A0A]/95 z-50 flex flex-col items-center justify-center p-6 text-center">
+            <div class="w-12 h-12 border border-white rounded-full flex items-center justify-center mb-4">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold tracking-wide uppercase mb-2">Data Transmitted</h3>
+            <p class="text-xs text-gray-400 max-w-xs mb-8">Logbook entry has been successfully logged to the system.</p>
+            <button type="button" id="btnResetForm" class="px-6 py-3 border border-white text-xs uppercase font-bold tracking-widest hover:bg-white hover:text-black transition-colors duration-200">
+                Submit Another Entry
+            </button>
+        </div>
+
+        <form action="https://script.google.com/macros/s/AKfycbxXp6sSMv1TFeLjGsDKR5fjWM6yCoIevt1L10eHrLpu5Crxc5bv7gRygK7L_OMK0U-Oiw/exec" method="POST" class="space-y-6">
+            <!-- 1. Member (4x2 Grid Button) -->
+            <div>
+                <label class="block mb-2 text-xs font-bold tracking-wider text-gray-400 uppercase">Member</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="member" value="Bex" class="sr-only peer" required>
+                        <div class="p-2.5 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Bex</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="member" value="Abim" class="sr-only peer">
+                        <div class="p-2.5 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Abim</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="member" value="Fahry" class="sr-only peer">
+                        <div class="p-2.5 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Fahry</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="member" value="Rakha" class="sr-only peer">
+                        <div class="p-2.5 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Rakha</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="member" value="Rangga" class="sr-only peer">
+                        <div class="p-2.5 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Rangga</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="member" value="Mas Fahrul" class="sr-only peer">
+                        <div class="p-2.5 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">M. Fahrul</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="member" value="Raza" class="sr-only peer">
+                        <div class="p-2.5 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Raza</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="member" value="Gilang" class="sr-only peer">
+                        <div class="p-2.5 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Gilang</div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 2. Date -->
+            <div>
+                <label class="block mb-2 text-xs font-bold tracking-wider text-gray-400 uppercase">Date</label>
+                <input type="date" name="date" class="w-full p-2.5 bg-[#1A1A1A] border border-[#262626] text-xs text-white focus:outline-none focus:border-white transition-colors" required>
+            </div>
+
+            <!-- 3. Type (Multi-select Buttons) -->
+            <div>
+                <label class="block mb-2 text-xs font-bold tracking-wider text-gray-400 uppercase">Type (Multi-select)</label>
+                <div class="grid grid-cols-2 gap-2">
+                    <label class="cursor-pointer text-center">
+                        <input type="checkbox" name="type" value="Synthesis" class="sr-only peer">
+                        <div class="p-2.5 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Synthesis</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="checkbox" name="type" value="Data acquisition" class="sr-only peer">
+                        <div class="p-2.5 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Data Acquisition</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="checkbox" name="type" value="Writing" class="sr-only peer">
+                        <div class="p-2.5 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Writing</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="checkbox" name="type" value="Other RnD" class="sr-only peer">
+                        <div class="p-2.5 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Other RnD</div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 4. Overview -->
+            <div>
+                <label class="block mb-2 text-xs font-bold tracking-wider text-gray-400 uppercase">Overview</label>
+                <textarea name="overview" rows="3" class="w-full p-2.5 bg-[#1A1A1A] border border-[#262626] text-xs text-white placeholder-gray-600 focus:outline-none focus:border-white transition-colors resize-none" placeholder="Isi progres singkat di sini..." required></textarea>
+            </div>
+
+            <!-- 5. Status (Selectable Button Grid) -->
+            <div>
+                <label class="block mb-2 text-xs font-bold tracking-wider text-gray-400 uppercase">Status</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="status" value="Done" class="sr-only peer" required>
+                        <div class="p-2 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Done</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="status" value="Half-done" class="sr-only peer">
+                        <div class="p-2 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Half-Done</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="status" value="Problems!" class="sr-only peer">
+                        <div class="p-2 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Problems!</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="status" value="Abort" class="sr-only peer">
+                        <div class="p-2 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Abort</div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 6. Difficulty (Selectable Button Grid) -->
+            <div>
+                <label class="block mb-2 text-xs font-bold tracking-wider text-gray-400 uppercase">Difficulty</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="difficulty" value="Easy Pizzy" class="sr-only peer" required>
+                        <div class="p-2 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Easy</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="difficulty" value="Medium" class="sr-only peer">
+                        <div class="p-2 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Medium</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="difficulty" value="Hard" class="sr-only peer">
+                        <div class="p-2 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Hard</div>
+                    </label>
+                    <label class="cursor-pointer text-center">
+                        <input type="radio" name="difficulty" value="Impossible" class="sr-only peer">
+                        <div class="p-2 border border-[#262626] text-xs transition-all duration-200 peer-checked:bg-white peer-checked:text-black peer-checked:border-white hover:border-gray-500">Impossible</div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 7. Output -->
+            <div>
+                <label class="block mb-2 text-xs font-bold tracking-wider text-gray-400 uppercase">Output</label>
+                <textarea name="output" rows="3" class="w-full p-2.5 bg-[#1A1A1A] border border-[#262626] text-xs text-white placeholder-gray-600 focus:outline-none focus:border-white transition-colors resize-none" placeholder="Isi hasil/data di sini..." required></textarea>
+            </div>
+
+            <!-- 8. Side Note -->
+            <div>
+                <label class="block mb-2 text-xs font-bold tracking-wider text-gray-400 uppercase">Side Note</label>
+                <textarea name="side_note" rows="3" class="w-full p-2.5 bg-[#1A1A1A] border border-[#262626] text-xs text-white placeholder-gray-600 focus:outline-none focus:border-white transition-colors resize-none" placeholder="Catatan opsional..."></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="btnSubmit" class="w-full p-3.5 bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-gray-200 transition-colors duration-200">
+                TRANSMIT DATA
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // GANTI DENGAN URL WEB APP APPS SCRIPT ANDA
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXp6sSMv1TFeLjGsDKR5fjWM6yCoIevt1L10eHrLpu5Crxc5bv7gRygK7L_OMK0U-Oiw/exec";
+
+        const form = document.getElementById('logbookForm');
+        const successOverlay = document.getElementById('successOverlay');
+        const btnResetForm = document.getElementById('btnResetForm');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const syncStatus = document.getElementById('syncStatus');
+
+        // Set default date to today
+        document.querySelector('input[type="date"]').valueAsDate = new Date();
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            btnSubmit.disabled = true;
+            btnSubmit.innerText = "TRANSMITTING...";
+            syncStatus.innerText = "SYNCING...";
+            syncStatus.classList.replace('text-gray-400', 'text-yellow-400');
+
+            const formData = new FormData(form);
+            
+            // Handle multiple checkboxes for 'type'
+            const types = [];
+            document.querySelectorAll('input[name="type"]:checked').forEach(cb => {
+                types.push(cb.value);
+            });
+            
+            // Construct payload or search parameters
+            const searchParams = new URLSearchParams();
+            for (const pair of formData.entries()) {
+                if (pair[0] !== 'type') {
+                    searchParams.append(pair[0], pair[1]);
+                }
+            }
+            searchParams.append('type', types.join(', '));
+
+            // Performed via fetch for multi-submission without page reload
+            if (APPS_SCRIPT_URL === "https://script.google.com/macros/s/AKfycbxXp6sSMv1TFeLjGsDKR5fjWM6yCoIevt1L10eHrLpu5Crxc5bv7gRygK7L_OMK0U-Oiw/exec") {
+                // Placeholder behavior if URL isn't configured yet
+                setTimeout(() => {
+                    showSuccess();
+                }, 1000);
+            } else {
+                fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // standard workaround for Apps Script CORS
+                    body: searchParams
+                })
+                .then(() => {
+                    showSuccess();
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                    alert('Transmission failed. Check console.');
+                    resetSubmitButton();
+                });
+            }
+        });
+
+        function showSuccess() {
+            syncStatus.innerText = "ONLINE";
+            syncStatus.classList.replace('text-yellow-400', 'text-green-400');
+            successOverlay.classList.remove('hidden');
+        }
+
+        function resetSubmitButton() {
+            btnSubmit.disabled = false;
+            btnSubmit.innerText = "TRANSMIT DATA";
+            syncStatus.innerText = "READY";
+            syncStatus.className = "text-[10px] text-gray-400 bg-[#1A1A1A] px-2 py-1 border border-[#262626]";
+        }
+
+        // Multi-submission logic: reset the form without reloading the window
+        btnResetForm.addEventListener('click', function() {
+            // Reset textareas and checkboxes/radios
+            form.reset();
+            
+            // Keep the date set to today for convenience
+            document.querySelector('input[type="date"]').valueAsDate = new Date();
+            
+            // Hide the success overlay
+            successOverlay.classList.add('hidden');
+            
+            // Restore submit button state
+            resetSubmitButton();
+        });
+    </script>
+</body>
+</html>
